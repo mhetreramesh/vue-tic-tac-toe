@@ -1,5 +1,5 @@
 <template>
-
+    <td class="cell">{{ mark }}</td>
 </template>
 
 <script>
