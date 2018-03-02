@@ -26,7 +26,18 @@
 					// fires an event to notify the Grid component that a mark is placed
 					Event.$emit('strike', this.name)
 				}
-			}
+      },
+      areEqual () {
+            var len = arguments.length;
+
+            // loops through each value and compares them with an empty sting and 
+            // for inequality
+            for (var i = 1; i < len; i++){
+                if (arguments[i] === '' || arguments[i] !== arguments[i-1])
+                    return false;
+            }
+            return true;
+      },
 		},
 
 		created () {

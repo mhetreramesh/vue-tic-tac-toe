@@ -67,19 +67,21 @@ export default {
 
             return 'O'
         },
+    },
+    methods: {
         changePlayer () {
             this.activePlayer = this.nonActivePlayer
         },
-        changeGameStatus () {
-            if (this.checkForWin()) {
-                return this.gameIsWon()
-            // checks if the game is still not won and all cells are filled
-            } else if (this.moves === 9) {
-                // sets the status to draw
-                return 'draw'
-            }
-            // sets the status to turn
-            return 'turn'
+        areEqual () {
+                var len = arguments.length;
+
+                // loops through each value and compares them with an empty sting and 
+                // for inequality
+                for (var i = 1; i < len; i++){
+                    if (arguments[i] === '' || arguments[i] !== arguments[i-1])
+                        return false;
+                }
+                return true;
         },
         checkForWin () {
             for (let i = 0; i < this.winConditions.length; i++) {
@@ -94,6 +96,31 @@ export default {
             }
 
             return false
+        },
+        
+        gameIsWon () {
+            // fires win event for the App component to change the score
+            Event.$emit('win', this.activePlayer)
+
+                // sets the game status message
+                this.gameStatusMessage = `${this.activePlayer} Wins !`
+
+                // fires an event for the Cell to freeze
+                Event.$emit('freeze')
+
+            // sets the status to win
+            return 'win'
+        },
+        changeGameStatus () {
+            if (this.checkForWin()) {
+                return this.gameIsWon()
+            // checks if the game is still not won and all cells are filled
+            } else if (this.moves === 9) {
+                // sets the status to draw
+                return 'draw'
+            }
+            // sets the status to turn
+            return 'turn'
         }
     },
     created () {
