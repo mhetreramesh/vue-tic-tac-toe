@@ -49,6 +49,19 @@
                     [1, 5, 9], [3, 5, 7]             // diagonals
                 ],
             }
+        },
+        computed: {
+            // helper property to get the non-active player
+            nonActivePlayer () {
+                if (this.activePlayer === 'O') {
+                    return 'X'
+                }
+
+                return 'O'
+            },
+            changePlayer () {
+                this.activePlayer = this.nonActivePlayer
+            },
         }
     }
 </script>
