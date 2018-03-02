@@ -1,4 +1,8 @@
 <template>
+<div>
+<div class="gameStatus" :class="gameStatusColor">
+          {{ gameStatusMessage }}
+      </div>
     <table class="grid">
     <tr>
         <cell name="1"></cell>
@@ -16,6 +20,7 @@
         <cell name="9"></cell>
     </tr>
     </table>
+    </div>
 </template>
 
 <script>
@@ -65,6 +70,17 @@ export default {
         changePlayer () {
             this.activePlayer = this.nonActivePlayer
         },
+        changeGameStatus () {
+            if (this.checkForWin()) {
+                return this.gameIsWon()
+            // checks if the game is still not won and all cells are filled
+            } else if (this.moves === 9) {
+                // sets the status to draw
+                return 'draw'
+            }
+            // sets the status to turn
+            return 'turn'
+        }
     },
     created () {
         Event.$on('gridReset', () => {
@@ -82,6 +98,27 @@ export default {
 
             this.changePlayer()
         })
+    },
+    watch: {
+        // watches for change in the value of gameStatus and changes the status 
+        // message and color accordingly
+        gameStatus () {
+            if (this.gameStatus === 'win') {
+                this.gameStatusColor = 'statusWin'
+
+                this.gameStatusMessage = `${this.activePlayer} Wins !`
+
+                return
+            } else if (this.gameStatus === 'draw') {
+                this.gameStatusColor = 'statusDraw'
+
+                this.gameStatusMessage = 'Draw !'
+
+                return
+            }
+
+            this.gameStatusMessage = `${this.activePlayer}'s turn`
+        }
     }
 }
 </script>
