@@ -137,7 +137,9 @@ export default {
             // stores the game status by calling the changeGameStatus method
             this.gameStatus = this.changeGameStatus()
 
-            this.changePlayer()
+            if(this.gameStatus == 'turn') {
+                this.changePlayer()
+            }
         })
     },
     watch: {
