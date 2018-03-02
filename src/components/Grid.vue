@@ -65,6 +65,23 @@ export default {
         changePlayer () {
             this.activePlayer = this.nonActivePlayer
         },
+    },
+    created () {
+        Event.$on('gridReset', () => {
+            Object.assign(this.$data, this.$options.data())
+        }),
+        Event.$on('strike', (cellNumber) => {
+            // sets either X or O in the clicked cell of the cells array
+            this.cells[cellNumber] = this.activePlayer
+
+            // increments the number of moves
+            this.moves++
+
+            // stores the game status by calling the changeGameStatus method
+            this.gameStatus = this.changeGameStatus()
+
+            this.changePlayer()
+        })
     }
 }
 </script>
